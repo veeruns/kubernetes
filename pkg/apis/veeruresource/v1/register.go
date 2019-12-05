@@ -4,24 +4,27 @@ import (
 	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/apimachinery/pkg/runtime"
 	"k8s.io/apimachinery/pkg/runtime/schema"
-	"github.com/veeruns/kubernetes/pkg/apis/veeruresource"
 )
 
 var SchemeGroupVersion = schema.GroupVersion{
-	Group:   VeeruResource.GroupName,
+	Group:   "highdensity.com",
 	Version: "v1",
 }
 
-var AddToScheme = runtime.NewSchemeBuilder(addKnownTypes).AddToScheme
+var SchemeBuilder = runtime.NewSchemeBuilder(addKnownTypes)
+var AddToScheme = SchemeBuilder.AddToScheme
 
 func Resource(resource string) schema.GroupResource {
 	return SchemeGroupVersion.WithResource(resource).GroupResource()
 }
 
+func Kind(kind string) schema.GroupKind {
+	return SchemeGroupVersion.WithKind(kind).GroupKind()
+}
+
 func addKnownTypes(scheme *runtime.Scheme) error {
-	scheme.AddKnownTypes(
-		SchemeGroupVersion,
-		&VeeruResource{},
+	scheme.AddKnownTypes(SchemeGroupVersion,
+		&Veeruresource{},
 		&VeeruResourceList{},
 	)
 

@@ -1,3 +1,5 @@
 package veeruresource
 
-const GroupName = "highdensity.com"
+const (
+	GroupName = "highdensity.com"
+)

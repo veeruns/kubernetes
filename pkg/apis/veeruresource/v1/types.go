@@ -1,20 +1,28 @@
 package v1
 
 // +genclient
-// +genclient:noStatus
+// +k8s:deepcopy-gen=true
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+
 // https://medium.com/@trstringer/create-kubernetes-controllers-for-core-and-custom-resources-62fc35ad64a3
 
 import (
 	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-type VeeruResource struct {
+// +k8s:deepcopy-gen=true
+
+// VeeruResource some resource with a Spec
+type Veeruresource struct {
 	meta_v1.TypeMeta   `json:",inline"`
 	meta_v1.ObjectMeta `json:"metadata,omitempty"`
-	Spec               VeeruResourceSpec `json:"spec"`
+
+	Spec VeeruResourceSpec `json:"spec"`
 }
 
+// +k8s:deepcopy-gen=true
+
+// VeeruResourceSpec is the what all the crd contains.
 type VeeruResourceSpec struct {
 	// Message and SomeValue are example custom spec fields
 	//
@@ -23,6 +31,8 @@ type VeeruResourceSpec struct {
 	SomeValue string `json:"someValue"`
 }
 
+// +k8s:deepcopy-gen=true
+
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
 // VeeruResourceList is a list of VeeruResource resources
@@ -30,5 +40,5 @@ type VeeruResourceList struct {
 	meta_v1.TypeMeta `json:",inline"`
 	meta_v1.ListMeta `json:"metadata"`
 
-	Items []VeeruResource `json:"items"`
+	Items []Veeruresource `json:"items"`
 }
