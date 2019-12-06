@@ -38,8 +38,8 @@ func addKnownTypes(scheme *runtime.Scheme) error {
 	//var vr = VeeruResource{}
 	scheme.AddKnownTypes(
 		SchemeGroupVersion,
-		&Database{},
-		&DatabaseList{},
+		&VeeruResource{},
+		&VeeruResourceList{},
 	)
 
 	scheme.AddKnownTypes(

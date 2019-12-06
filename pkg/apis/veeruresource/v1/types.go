@@ -1,32 +1,23 @@
 package v1
 
-// +genclient
-// +genClient:noStatus
-// +k8s:deepcopy-gen=true
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
-// https://medium.com/@trstringer/create-kubernetes-controllers-for-core-and-custom-resources-62fc35ad64a3
-
 import (
 	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// +k8s:deepcopy-gen=true
+// +genclient
+// +genclient:noStatus
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-// Database some resource with a Spec
-type Database struct {
+
+//VeeruResource some object with spec
+type VeeruResource struct {
 	meta_v1.TypeMeta   `json:",inline"`
 	meta_v1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec DatabaseSpec `json:"spec"`
+	Spec VeeruResourceSpec `json:"spec"`
 }
 
-// +k8s:deepcopy-gen=true
-// +k8s:deepcopy-gen=true
-// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
-
-// DatabaseSpec is the what all the crd contains.
-type DatabaseSpec struct {
+// VeeruResourceSpec is the what all the crd contains.
+type VeeruResourceSpec struct {
 	// Message and SomeValue are example custom spec fields
 	//
 	// this is where you would put your custom resource data
@@ -34,16 +25,14 @@ type DatabaseSpec struct {
 	SomeValue string `json:"someValue"`
 }
 
-// +k8s:deepcopy-gen=true
-// +k8s:deepcopy-gen=true
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// DatabaseList is a list of VeeruResource resources
-type DatabaseList struct {
+// VeeruResourceList is a list of VeeruResource resources
+type VeeruResourceList struct {
 	meta_v1.TypeMeta `json:",inline"`
 	meta_v1.ListMeta `json:"metadata"`
 
-	Items []Database `json:"items"`
+	Items []VeeruResource `json:"items"`
 }
 
 //VeeruResourceStatus is the status
