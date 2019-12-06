@@ -1,6 +1,7 @@
 package v1
 
 // +genclient
+// +genClient:noStatus
 // +k8s:deepcopy-gen=true
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
@@ -11,19 +12,21 @@ import (
 )
 
 // +k8s:deepcopy-gen=true
-
-// VeeruResource some resource with a Spec
-type Veeruresource struct {
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+// Database some resource with a Spec
+type Database struct {
 	meta_v1.TypeMeta   `json:",inline"`
 	meta_v1.ObjectMeta `json:"metadata,omitempty"`
 
-	Spec VeeruResourceSpec `json:"spec"`
+	Spec DatabaseSpec `json:"spec"`
 }
 
 // +k8s:deepcopy-gen=true
+// +k8s:deepcopy-gen=true
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// VeeruResourceSpec is the what all the crd contains.
-type VeeruResourceSpec struct {
+// DatabaseSpec is the what all the crd contains.
+type DatabaseSpec struct {
 	// Message and SomeValue are example custom spec fields
 	//
 	// this is where you would put your custom resource data
@@ -32,13 +35,18 @@ type VeeruResourceSpec struct {
 }
 
 // +k8s:deepcopy-gen=true
-
+// +k8s:deepcopy-gen=true
 // +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
 
-// VeeruResourceList is a list of VeeruResource resources
-type VeeruResourceList struct {
+// DatabaseList is a list of VeeruResource resources
+type DatabaseList struct {
 	meta_v1.TypeMeta `json:",inline"`
 	meta_v1.ListMeta `json:"metadata"`
 
-	Items []Veeruresource `json:"items"`
+	Items []Database `json:"items"`
+}
+
+//VeeruResourceStatus is the status
+type VeeruResourceStatus struct {
+	RandomString int32 `json:"randomstring"`
 }
