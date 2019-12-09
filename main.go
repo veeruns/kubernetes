@@ -5,15 +5,17 @@ import (
 	"os/signal"
 	"syscall"
 
-	log "github.com/Sirupsen/logrus"
+	"reflect"
+
+	log "github.com/sirupsen/logrus"
+	veeru_v1 "github.com/veeruns/kubernetes/pkg/apis/veeruresource/v1"
+	veeruclientset "github.com/veeruns/kubernetes/pkg/client/clientset/versioned"
+	veeruinformer_v1 "github.com/veeruns/kubernetes/pkg/client/informers/externalversions/veeruresource/v1"
 	meta_v1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	"k8s.io/client-go/kubernetes"
 	"k8s.io/client-go/tools/cache"
 	"k8s.io/client-go/tools/clientcmd"
 	"k8s.io/client-go/util/workqueue"
-
-	veeruclientset "github.com/veeruns/kubernetes/pkg/client/clientset/versioned"
-	veeruinformer_v1 "github.com/veeruns/kubernetes/pkg/client/informers/externalversions/veeruresource/v1"
 )
 
 // retrieve the Kubernetes cluster client from outside of the cluster
@@ -71,7 +73,13 @@ func main() {
 			// convert the resource object into a key (in this case
 			// we are just doing it in the format of 'namespace/name')
 			key, err := cache.MetaNamespaceKeyFunc(obj)
-			log.Infof("Add myresource: %s", key)
+			log.Infof("Add Veeru Resource: %s", key)
+			log.Infof("Type of object is %s", reflect.TypeOf(obj))
+			//var v veeru_v1.VeeruResource
+			v := obj.(*veeru_v1.VeeruResource)
+
+			log.Infof("Lets see if we have this %s", v.Spec.Message)
+			log.Infof("After the message we have %s\n", v.Spec.SomeValue)
 			if err == nil {
 				// add the key to the queue for the handler to get
 				queue.Add(key)
@@ -79,7 +87,7 @@ func main() {
 		},
 		UpdateFunc: func(oldObj, newObj interface{}) {
 			key, err := cache.MetaNamespaceKeyFunc(newObj)
-			log.Infof("Update myresource: %s", key)
+			log.Infof("Update Veeru Resource: %s", key)
 			if err == nil {
 				queue.Add(key)
 			}
@@ -91,7 +99,7 @@ func main() {
 			//
 			// this then in turn calls MetaNamespaceKeyFunc
 			key, err := cache.DeletionHandlingMetaNamespaceKeyFunc(obj)
-			log.Infof("Delete myresource: %s", key)
+			log.Infof("Delete Veeru Resource: %s", key)
 			if err == nil {
 				queue.Add(key)
 			}
